@@ -1,0 +1,21 @@
+{
+<<<<<<< HEAD
+    "editor.semanticTokenColorCustomizations": {
+        "enabled": true, // enable for all themes
+    },
+    "python.testing.pytestArgs": [
+        "tests"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.pytestEnabled": true
+
+}
+=======
+    "python.testing.promptToConfigure": false,
+    "python.testing.pytestEnabled": false,
+    "python.testing.unittestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    "git.ignoreLimitWarning": true
+}
+>>>>>>> kivy_hello_world_app
