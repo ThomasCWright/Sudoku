@@ -36,55 +36,55 @@ class MyPaintApp(App):
         # PrintHelper.printBitmap('jobname','./blank_9x9.png')
 
 
-        # Context is a normal java class in the Android API
-        Context = autoclass('android.content.Context')
+        # # Context is a normal java class in the Android API
+        # Context = autoclass('android.content.Context')
 
-        # PythonActivity is provided by the Kivy bootstrap app in python-for-android
-        PythonActivity = autoclass("org.kivy.android.PythonActivity")
+        # # PythonActivity is provided by the Kivy bootstrap app in python-for-android
+        # PythonActivity = autoclass("org.kivy.android.PythonActivity")
 
-        # The PythonActivity stores a reference to the currently running activity
-        # We need this to access the vibrator service
-        activity = PythonActivity.mActivity
+        # # The PythonActivity stores a reference to the currently running activity
+        # # We need this to access the vibrator service
+        # activity = PythonActivity.mActivity
 
-        # This is almost identical to the java code for the vibrator
-        vibrator = activity.getSystemService(Context.VIBRATOR_SERVICE)
+        # # This is almost identical to the java code for the vibrator
+        # vibrator = activity.getSystemService(Context.VIBRATOR_SERVICE)
 
-        vibrator.vibrate(500)  # The value is in milliseconds - this is 0.5s
+        # vibrator.vibrate(500)  # The value is in milliseconds - this is 0.5s
 
-    #     self.share('./blank_9x9.png')
+        self.share('./blank_9x9.png')
 
-    # def share(self,path):
-    #     PythonActivity = autoclass('org.kivy.android.PythonActivity')
-    #     Intent = autoclass('android.content.Intent')
-    #     String = autoclass('java.lang.String')
-    #     Uri = autoclass('android.net.Uri')
-    #     File = autoclass('java.io.File')
+    def share(self,path):
+        PythonActivity = autoclass('org.kivy.android.PythonActivity')
+        Intent = autoclass('android.content.Intent')
+        String = autoclass('java.lang.String')
+        Uri = autoclass('android.net.Uri')
+        File = autoclass('java.io.File')
 
-    #     shareIntent = Intent(Intent.ACTION_SEND)
-    #     shareIntent.setType('"image/*"')
-    #     imageFile = File(path)
-    #     # uri = Uri.FileProvide(imageFile)
+        shareIntent = Intent(Intent.ACTION_SEND)
+        shareIntent.setType('"image/*"')
+        imageFile = File(path)
+        # uri = Uri.FileProvide(imageFile)
 
-    #     # File imagePath = new File(Context.getFilesDir(), "images");
-    #     # File newFile = new File(imagePath, "default_image.jpg");
-    #     Uri uri = getUriForFile(getContext(), "com.mydomain.fileprovider", newFile)
+        # File imagePath = new File(Context.getFilesDir(), "images");
+        # File newFile = new File(imagePath, "default_image.jpg");
+        uri = Uri.getUriForFile(getContext(), "com.mydomain.fileprovider", newFile)
 
 
-    #     parcelable = cast('android.os.Parcelable', uri)
-    #     shareIntent.putExtra(Intent.EXTRA_STREAM, parcelable)
+        parcelable = cast('android.os.Parcelable', uri)
+        shareIntent.putExtra(Intent.EXTRA_STREAM, parcelable)
 
-    #     currentActivity = cast('android.app.Activity', PythonActivity.mActivity)
-    #     currentActivity.startActivity(shareIntent)
+        currentActivity = cast('android.app.Activity', PythonActivity.mActivity)
+        currentActivity.startActivity(shareIntent)
 
 if __name__ == '__main__':
     MyPaintApp().run()
 
 # Builds with the following:
 # p4a apk --private /mnt/c/Users/tcw25/Documents/GitHub/Sudoku/
-        # --package=com.chdirections
-        # --name "myapp"
-        # --version 0.1
-        # --bootstrap=sdl2
-        # --requirements=python3,kivy,pyjnius
-        # --arch=arm64-v8a
-        # --permission VIBRATE
+#         --package=com.chdirections
+#         --name "myapp"
+#         --version 0.1
+#         --bootstrap=sdl2
+#         --requirements=python3,kivy,pyjnius
+#         --arch=arm64-v8a
+#         --permission VIBRATE
