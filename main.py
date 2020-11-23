@@ -1,13 +1,9 @@
 from random import random
-from jnius import autoclass
+from jnius import cast, autoclass
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.uix.button import Button
 from kivy.graphics import Color, Ellipse, Line
-
-# 'autoclass' takes a java class and gives it a Python wrapper
-from jnius import autoclass
-
 
 
 class MyPaintWidget(Widget):
@@ -55,7 +51,40 @@ class MyPaintApp(App):
 
         vibrator.vibrate(500)  # The value is in milliseconds - this is 0.5s
 
+    #     self.share('./blank_9x9.png')
 
+    # def share(self,path):
+    #     PythonActivity = autoclass('org.kivy.android.PythonActivity')
+    #     Intent = autoclass('android.content.Intent')
+    #     String = autoclass('java.lang.String')
+    #     Uri = autoclass('android.net.Uri')
+    #     File = autoclass('java.io.File')
+
+    #     shareIntent = Intent(Intent.ACTION_SEND)
+    #     shareIntent.setType('"image/*"')
+    #     imageFile = File(path)
+    #     # uri = Uri.FileProvide(imageFile)
+
+    #     # File imagePath = new File(Context.getFilesDir(), "images");
+    #     # File newFile = new File(imagePath, "default_image.jpg");
+    #     Uri uri = getUriForFile(getContext(), "com.mydomain.fileprovider", newFile)
+
+
+    #     parcelable = cast('android.os.Parcelable', uri)
+    #     shareIntent.putExtra(Intent.EXTRA_STREAM, parcelable)
+
+    #     currentActivity = cast('android.app.Activity', PythonActivity.mActivity)
+    #     currentActivity.startActivity(shareIntent)
 
 if __name__ == '__main__':
     MyPaintApp().run()
+
+# Builds with the following:
+# p4a apk --private /mnt/c/Users/tcw25/Documents/GitHub/Sudoku/
+        # --package=com.chdirections
+        # --name "myapp"
+        # --version 0.1
+        # --bootstrap=sdl2
+        # --requirements=python3,kivy,pyjnius
+        # --arch=arm64-v8a
+        # --permission VIBRATE
