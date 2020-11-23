@@ -5,6 +5,7 @@ from kivy.uix.widget import Widget
 from kivy.uix.button import Button
 from kivy.graphics import Color, Ellipse, Line
 
+from android.permissions import request_permissions, Permission
 
 class MyPaintWidget(Widget):
 
@@ -23,6 +24,9 @@ class MyPaintWidget(Widget):
 class MyPaintApp(App):
 
     def build(self):
+        request_permissions([Permission.WRITE_EXTERNAL_STORAGE,
+                     Permission.READ_EXTERNAL_STORAGE])
+
         parent = Widget()
         self.painter = MyPaintWidget()
         clearbtn = Button(text='Print')
@@ -63,11 +67,11 @@ class MyPaintApp(App):
         shareIntent = Intent(Intent.ACTION_SEND)
         shareIntent.setType('"image/*"')
         imageFile = File(path)
-        # uri = Uri.FileProvide(imageFile)
+        uri = Uri.fromFile(imageFile)
 
         # File imagePath = new File(Context.getFilesDir(), "images");
         # File newFile = new File(imagePath, "default_image.jpg");
-        uri = Uri.getUriForFile(getContext(), "com.mydomain.fileprovider", newFile)
+        # uri = Uri.getUriForFile(getContext(), "com.mydomain.fileprovider", newFile)
 
 
         parcelable = cast('android.os.Parcelable', uri)
