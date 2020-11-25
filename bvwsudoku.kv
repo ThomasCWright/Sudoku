@@ -1,0 +1,15 @@
+BoxLayout:
+    orientation: 'vertical'
+    ScatterLayout:
+        Image:
+            source: 'images/blank_9x9.png'
+    Label:
+        size_hint: None, None
+        id: my_lab
+        Button:
+            pos: root.center[0]-self.width/2, 50
+            text: 'Share'
+            size: my_lab.texture_size[0] + 100, my_lab.texture_size[1] + 50
+
+
+
