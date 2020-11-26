@@ -1,15 +1,17 @@
-BoxLayout:
-    orientation: 'vertical'
-    ScatterLayout:
+<PrintScreen>:
+    BoxLayout:
+        orientation: 'vertical'
         Image:
+            id: im
+            size_hint: 0.9, 0.9
+            pos_hint: {'center_x': .5, 'center_y': .5}
             source: 'images/blank_9x9.png'
-    Label:
-        size_hint: None, None
-        id: my_lab
+            allow_stretch: True
         Button:
-            pos: root.center[0]-self.width/2, 50
-            text: 'Share'
-            size: my_lab.texture_size[0] + 100, my_lab.texture_size[1] + 50
+            pos_hint: {'center_x': .5, 'center_y': .5}
+            size_hint: None, 0.1
+            width: min([im.width,im.height])
+            text: 'Print'
 
 
 

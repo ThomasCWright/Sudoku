@@ -15,13 +15,16 @@ from kivy.uix.image import Image
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.scatter import Scatter
 
-class BVWSudoku(App):
+class PrintScreen(BoxLayout):
+    def build(self):
+        pass
 
+class BVWSudoku(App):
     def build(self):
         if platform == 'android':
             request_permissions([Permission.WRITE_EXTERNAL_STORAGE,
                         Permission.READ_EXTERNAL_STORAGE])
-        pass
+        return PrintScreen()
 
     # def print_canvas(self, obj):
     #     # PrintHelper = autoclass('androidx.print.PrintHelper')
