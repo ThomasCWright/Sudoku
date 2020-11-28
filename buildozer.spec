@@ -16,7 +16,7 @@ source.dir = .
 source.include_exts = py,png,jpg,kv,atlas
 
 # (list) List of inclusions using pattern matching
-source.include_patterns = assets/*,images/*.png
+#source.include_patterns = *.png
 
 # (list) Source files to exclude (let empty to not exclude anything)
 #source.exclude_exts = spec
@@ -103,7 +103,7 @@ android.ndk = 19c
 #android.ndk_api = 21
 
 # (bool) Use --private data storage (True) or --dir public storage (False)
-#android.private_storage = True
+android.private_storage = True
 
 # (str) Android NDK directory (if empty, it will be automatically downloaded.)
 #android.ndk_path =

@@ -5,23 +5,29 @@ from kivy.utils import platform
 
 if platform == 'android':
     from android.permissions import Permission, request_permissions
+    from android.storage import primary_external_storage_path
+
 
 from jnius import autoclass, cast
 from kivy.app import App
 from kivy.graphics import Color, Ellipse, Line
-from kivy.uix.button import Button
-from kivy.uix.widget import Widget
-from kivy.uix.image import Image
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.button import Button
+from kivy.uix.image import Image
 from kivy.uix.scatter import Scatter
+from kivy.uix.widget import Widget
+
 
 class PrintScreen(BoxLayout):
+    if platform == 'android':
+        SD_CARD = primary_external_storage_path()
+
     def build(self):
         pass
 
     def print(self):
         if platform == 'android':
-            path = os.path.join('images','blank_9x9.png')
+            path = os.path.join(self.SD_CARD,'blank_9x9.png')
             print(f"sharing file path: {path}")
             self.share(path)
 
@@ -29,33 +35,14 @@ class PrintScreen(BoxLayout):
         if platform == 'android':
             PythonActivity = autoclass('org.kivy.android.PythonActivity')
             Intent = autoclass('android.content.Intent')
-            # String = autoclass('java.lang.String')
+            String = autoclass('java.lang.String')
             Uri = autoclass('android.net.Uri')
-            File = autoclass('java.io.File')
-            # FileProvider = autoclass('android.support.v4.content.FileProvider')
-            Context = autoclass("android.content.Context")
-            # Environment = autoclass("android.os.Environment")
-
-            for c in Context.fileList():
-                print(f"Context.filelist(): {c}")
-
-            print(f"Context.getFilesDir(): {Context.getFilesDir().list()}")
-
-
-            shareIntent = Intent(Intent.ACTION_SEND)
-            shareIntent.setType('"image/*"')
-            imageFile = File(path)
-            uri = Uri.fromFile(imageFile)
-
-            # File imagePath = new File(Context.getFilesDir(), "images");
-            # File newFile = new File(imagePath, "default_image.jpg");
-            # uri = FileProvider.getUriForFile(Context.getApplicationContext(),"org.test.myapp.fileprovider", imageFile)
-
-            parcelable = cast('android.os.Parcelable', uri)
-            shareIntent.putExtra(Intent.EXTRA_STREAM, parcelable)
-
-            currentActivity = cast('android.app.Activity', PythonActivity.mActivity)
-            currentActivity.startActivity(shareIntent)
+            intent = Intent()
+            intent.setData(Uri.parse(path))
+            intent.setAction(Intent.ACTION_SEND)
+            intent.setType('image/png')
+            chooser = Intent.createChooser(intent, String("Print my stuff"))
+            PythonActivity.mActivity.startActivity(chooser)
 
 class BVWSudoku(App):
     def build(self):
