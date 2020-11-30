@@ -19,30 +19,54 @@ from kivy.uix.widget import Widget
 
 
 class PrintScreen(BoxLayout):
-    if platform == 'android':
-        SD_CARD = primary_external_storage_path()
 
     def build(self):
         pass
 
     def print(self):
         if platform == 'android':
-            path = os.path.join(self.SD_CARD,'blank_9x9.png')
+            # path = os.path.join(self.ids.fc.path, self.ids.fc.selection[0])
+            path = os.path.abspath(self.ids.im.source)
+            path = self.copy_to_external_storage(path)
             print(f"sharing file path: {path}")
             self.share(path)
 
+    def copy_to_external_storage(self,path):
+        if platform == 'android':
+            Environment = autoclass('android.os.Environment')
+            rootpath = Environment.getExternalStorageDirectory().getAbsolutePath()
+            Files = autoclass('java.nio.file.Files')
+            StandardCopyOption = autoclass('java.nio.file.StandardCopyOption')
+            File = autoclass('java.io.File')
+
+            newpath=os.path.join(rootpath,os.path.basename(path))
+
+            Oldpath = File(path).toPath()
+            Newpath = File(newpath).toPath()
+
+            JPath = Files.copy(Oldpath, Newpath, StandardCopyOption.REPLACE_EXISTING)
+
+            print(f"Files.copy to newpath: {JPath.toUri().toString()}")
+            return JPath.toUri()
+
     def share(self,path):
         if platform == 'android':
-            PythonActivity = autoclass('org.kivy.android.PythonActivity')
             Intent = autoclass('android.content.Intent')
-            String = autoclass('java.lang.String')
             Uri = autoclass('android.net.Uri')
+            File = autoclass('java.io.File')
             intent = Intent()
-            intent.setData(Uri.parse(path))
-            intent.setAction(Intent.ACTION_SEND)
-            intent.setType('image/png')
-            chooser = Intent.createChooser(intent, String("Print my stuff"))
-            PythonActivity.mActivity.startActivity(chooser)
+            intent.setAction(Intent.ACTION_VIEW)
+            intent.setType("image/jpg")
+            uri = Uri.fromFile(File(path))
+            parcelable = cast('android.os.Parcelable', uri)
+            intent.putExtra(Intent.EXTRA_STREAM, parcelable)
+
+            PythonActivity = autoclass('org.kivy.android.PythonActivity')
+            currentActivity = cast('android.app.Activity', PythonActivity.mActivity)
+            self.context = cast('android.content.ContextWrapper', currentActivity.getApplicationContext())
+
+            if intent.resolveActivity(self.context.getPackageManager()) != None:
+                currentActivity.startActivity(intent)
 
 class BVWSudoku(App):
     def build(self):
@@ -51,38 +75,6 @@ class BVWSudoku(App):
                         Permission.READ_EXTERNAL_STORAGE])
         return PrintScreen()
 
-    # def print_canvas(self, obj):
-    #     # PrintHelper = autoclass('androidx.print.PrintHelper')
-    #     # PrintHelper.printBitmap('jobname','./blank_9x9.png')
-
-
-    #     # # Context is a normal java class in the Android API
-    #     # Context = autoclass('android.content.Context')
-
-    #     # # PythonActivity is provided by the Kivy bootstrap app in python-for-android
-    #     # PythonActivity = autoclass("org.kivy.android.PythonActivity")
-
-    #     # # The PythonActivity stores a reference to the currently running activity
-    #     # # We need this to access the vibrator service
-    #     # activity = PythonActivity.mActivity
-
-    #     # # This is almost identical to the java code for the vibrator
-    #     # vibrator = activity.getSystemService(Context.VIBRATOR_SERVICE)
-
-    #     # vibrator.vibrate(500)  # The value is in milliseconds - this is 0.5s
-
-
-
-
 if __name__ == '__main__':
     BVWSudoku().run()
 
-# Builds with the following:
-# p4a apk --private /mnt/c/Users/tcw25/Documents/GitHub/Sudoku/
-#         --package=com.chdirections
-#         --name "myapp"
-#         --version 0.1
-#         --bootstrap=sdl2
-#         --requirements=python3,kivy,pyjnius
-#         --arch=arm64-v8a
-#         --permission VIBRATE
