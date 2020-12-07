@@ -26,28 +26,46 @@ class PrintScreen(BoxLayout):
     def print(self):
         if platform == 'android':
             # path = os.path.join(self.ids.fc.path, self.ids.fc.selection[0])
+
             path = os.path.abspath(self.ids.im.source)
             path = self.copy_to_external_storage(path)
-            print(f"sharing file path: {path}")
+            AndroidOSVERSION = autoclass('android.os.Build$VERSION')
+            print(f"sharing file path: {path}\nAPI={AndroidOSVERSION.SDK_INT}")
             self.share(path)
 
     def copy_to_external_storage(self,path):
         if platform == 'android':
             Environment = autoclass('android.os.Environment')
+            FileOutputStream = autoclass('java.io.FileOutputStream')
+            FileInputStream = autoclass('java.io.FileInputStream')
+
             rootpath = Environment.getExternalStorageDirectory().getAbsolutePath()
-            Files = autoclass('java.nio.file.Files')
-            StandardCopyOption = autoclass('java.nio.file.StandardCopyOption')
             File = autoclass('java.io.File')
 
-            newpath=os.path.join(rootpath,os.path.basename(path))
+            dstFile = File(os.path.join(rootpath,os.path.basename(path)))
+            srcFile = File(os.path.abspath(path))
+            if dstFile.exists():
+                return dstFile.toURI()
+            else:
+                dstFile.createNewFile()
 
-            Oldpath = File(path).toPath()
-            Newpath = File(newpath).toPath()
+            print(f"File to new dst: {dstFile.toURI()}")
 
-            JPath = Files.copy(Oldpath, Newpath, StandardCopyOption.REPLACE_EXISTING)
+            source = FileInputStream(srcFile)
+            destination = FileOutputStream(dstFile)
 
-            print(f"Files.copy to newpath: {JPath.toUri().toString()}")
-            return JPath.toUri()
+            b = bytearray
+
+            print(f"Source available = {source.available()}")
+
+            while source.available() > 0:
+                b = source.read()
+                destination.write(b)
+
+            source.close()
+            destination.close()
+
+            return dstFile.toURI()
 
     def share(self,path):
         if platform == 'android':
@@ -56,7 +74,7 @@ class PrintScreen(BoxLayout):
             File = autoclass('java.io.File')
             intent = Intent()
             intent.setAction(Intent.ACTION_VIEW)
-            intent.setType("image/jpg")
+            intent.setType("image/*")
             uri = Uri.fromFile(File(path))
             parcelable = cast('android.os.Parcelable', uri)
             intent.putExtra(Intent.EXTRA_STREAM, parcelable)

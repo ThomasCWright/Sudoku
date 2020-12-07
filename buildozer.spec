@@ -16,7 +16,7 @@ source.dir = .
 source.include_exts = py,png,jpg,kv,atlas
 
 # (list) List of inclusions using pattern matching
-source.include_patterns = *.png
+source.include_patterns = *.png,*.jpg
 
 # (list) Source files to exclude (let empty to not exclude anything)
 #source.exclude_exts = spec
@@ -28,7 +28,7 @@ source.include_patterns = *.png
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 0.2
+version = 0.3
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
@@ -91,16 +91,16 @@ android.permissions = WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE
 android.api = 29
 
 # (int) Minimum API your APK will support.
-#android.minapi = 29
+# android.minapi = 25
 
 # (int) Android SDK version to use
-#android.sdk = 21
+android.sdk = 29
 
 # (str) Android NDK version to use
-#android.ndk = 19c
+android.ndk = 20b
 
 # (int) Android NDK API to use. This is the minimum API your app will support, it should usually match android.minapi.
-#android.ndk_api = 29
+# android.ndk_api = 29
 
 # (bool) Use --private data storage (True) or --dir public storage (False)
 android.private_storage = True
@@ -152,11 +152,12 @@ android.accept_sdk_license = True
 
 # (list) Android AAR archives to add (currently works only with sdl2_gradle
 # bootstrap)
-#android.add_aars =
+# android.add_aars = support-compat-28.0.0.aar
 
 # (list) Gradle dependencies to add (currently works only with sdl2_gradle
 # bootstrap)
-#android.gradle_dependencies =
+# android.gradle_dependencies = "com.android.support:support-core-utils:27.0.0"
+# android.gradle_dependencies = "androidx.core:core:1.3.2"
 
 # (list) add java compile options
 # this can for example be necessary when importing certain java libraries using the 'android.gradle_dependencies' option
@@ -219,24 +220,25 @@ android.accept_sdk_license = True
 #android.copy_libs = 1
 
 # (str) The Android arch to build for, choices: armeabi-v7a, arm64-v8a, x86, x86_64
-android.arch = arm64-v8a
+# android.arch = arm64-v8a
+android.arch = x86
 
 # (int) overrides automatic versionCode computation (used in build.gradle)
 # this is not the same as app version and should only be edited if you know what you're doing
-# android.numeric_version = 1
+android.numeric_version = 8213
 
 #
 # Python for android (p4a) specific
 #
 
 # (str) python-for-android fork to use, defaults to upstream (kivy)
-#p4a.fork = kivy
+# p4a.fork = git@https://github.com/ThomasCWright/python-for-android.git
 
 # (str) python-for-android branch to use, defaults to master
-#p4a.branch = master
+# p4a.branch = develop
 
 # (str) python-for-android git clone directory (if empty, it will be automatically cloned from github)
-#p4a.source_dir =
+# p4a.source_dir = ../python-for-android
 
 # (str) The directory in which python-for-android should look for your own build recipes (if any)
 #p4a.local_recipes =
