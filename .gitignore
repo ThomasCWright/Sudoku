@@ -2,3 +2,4 @@
 *.jks
 bin/*
 .idea/*
+.gradle/*

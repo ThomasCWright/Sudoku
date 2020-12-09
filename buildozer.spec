@@ -28,7 +28,7 @@ source.include_patterns = *.png,*.jpg
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 0.3
+version = 0.4
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
@@ -85,7 +85,7 @@ fullscreen = 0
 #android.presplash_color = #FFFFFF
 
 # (list) Permissions
-android.permissions = WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE
+android.permissions = READ_EXTERNAL_STORAGE
 
 # (int) Target Android API, should be as high as possible.
 android.api = 29
@@ -97,7 +97,7 @@ android.api = 29
 android.sdk = 29
 
 # (str) Android NDK version to use
-android.ndk = 20b
+android.ndk = 21d
 
 # (int) Android NDK API to use. This is the minimum API your app will support, it should usually match android.minapi.
 # android.ndk_api = 29
@@ -152,11 +152,12 @@ android.accept_sdk_license = True
 
 # (list) Android AAR archives to add (currently works only with sdl2_gradle
 # bootstrap)
-# android.add_aars = support-compat-28.0.0.aar
+android.add_aars = ./support-v4-24.1.1.aar
 
 # (list) Gradle dependencies to add (currently works only with sdl2_gradle
 # bootstrap)
-# android.gradle_dependencies = "com.android.support:support-core-utils:27.0.0"
+# android.gradle_dependencies = "com.android.support:support-core-utils:24.2.1"
+#android.gradle_dependencies = "com.android.support:support-core-utils:27.0.0"
 # android.gradle_dependencies = "androidx.core:core:1.3.2"
 
 # (list) add java compile options
@@ -220,12 +221,12 @@ android.accept_sdk_license = True
 #android.copy_libs = 1
 
 # (str) The Android arch to build for, choices: armeabi-v7a, arm64-v8a, x86, x86_64
-# android.arch = arm64-v8a
-android.arch = x86
+android.arch = arm64-v8a
+# android.arch = x86
 
 # (int) overrides automatic versionCode computation (used in build.gradle)
 # this is not the same as app version and should only be edited if you know what you're doing
-android.numeric_version = 8213
+android.numeric_version = 8214
 
 #
 # Python for android (p4a) specific
@@ -238,7 +239,7 @@ android.numeric_version = 8213
 # p4a.branch = develop
 
 # (str) python-for-android git clone directory (if empty, it will be automatically cloned from github)
-# p4a.source_dir = ../python-for-android
+#p4a.source_dir = ../python-for-android
 
 # (str) The directory in which python-for-android should look for your own build recipes (if any)
 #p4a.local_recipes =

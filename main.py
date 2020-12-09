@@ -31,7 +31,8 @@ class PrintScreen(BoxLayout):
             path = self.copy_to_external_storage(path)
             AndroidOSVERSION = autoclass('android.os.Build$VERSION')
             print(f"sharing file path: {path}\nAPI={AndroidOSVERSION.SDK_INT}")
-            self.share(path)
+            # self.share_intent(path)
+            self.share_file(path)
 
     def copy_to_external_storage(self,path):
         if platform == 'android':
@@ -67,7 +68,46 @@ class PrintScreen(BoxLayout):
 
             return dstFile.toURI()
 
-    def share(self,path):
+    def share_file(self,path):
+        FileProvider = autoclass('android.support.v4.content.FileProvider')
+        Context = autoclass("android.content.Context")
+        # Environment = autoclass("android.os.Environment")
+        Intent = autoclass('android.content.Intent')
+
+
+        # Uri = autoclass('android.net.Uri')
+        File = autoclass('java.io.File')
+        intent = Intent()
+        intent.setAction(Intent.ACTION_SEND)
+        intent.setType("image/*")
+        # uri = Uri.fromFile(File(path))
+
+        share_file = File(path)
+
+        print(f"share_file = {share_file.getAbsolutePath()}")
+
+        uri = FileProvider.getUriForFile(
+                Context.getApplicationContext(),
+                "com.chdirections.BVWSudoku.fileprovider",
+                share_file
+                )
+        print(f"Uri = {uri}")
+
+        parcelable = cast('android.os.Parcelable', uri)
+        intent.putExtra(Intent.EXTRA_STREAM, parcelable)
+
+        PythonActivity = autoclass('org.kivy.android.PythonActivity')
+        currentActivity = cast('android.app.Activity', PythonActivity.mActivity)
+        self.context = cast('android.content.ContextWrapper', currentActivity.getApplicationContext())
+
+        if intent.resolveActivity(self.context.getPackageManager()) != None:
+            currentActivity.startActivity(intent)
+
+
+
+
+
+    def share_intent(self,path):
         if platform == 'android':
             Intent = autoclass('android.content.Intent')
             Uri = autoclass('android.net.Uri')
