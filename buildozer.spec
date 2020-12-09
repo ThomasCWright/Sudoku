@@ -97,7 +97,7 @@ android.api = 29
 android.sdk = 29
 
 # (str) Android NDK version to use
-android.ndk = 21d
+android.ndk = 19c
 
 # (int) Android NDK API to use. This is the minimum API your app will support, it should usually match android.minapi.
 # android.ndk_api = 29
@@ -106,10 +106,10 @@ android.ndk = 21d
 android.private_storage = True
 
 # (str) Android NDK directory (if empty, it will be automatically downloaded.)
-#android.ndk_path =
+android.ndk_path = /home/tcw/dev/Android/ndk/19.2.5345600
 
 # (str) Android SDK directory (if empty, it will be automatically downloaded.)
-#android.sdk_path =
+android.sdk_path = /home/tcw/dev/Android/
 
 # (str) ANT directory (if empty, it will be automatically downloaded.)
 #android.ant_path =
