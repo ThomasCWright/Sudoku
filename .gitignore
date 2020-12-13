@@ -1,0 +1,7 @@
+.buildozer/*
+*.jks
+bin/*
+.idea/*
+.gradle/*
+*.aar
+

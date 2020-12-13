@@ -1,90 +1,139 @@
+import os
 from random import random
-from jnius import cast, autoclass
+
+from kivy.utils import platform
+
+if platform == 'android':
+    from android.permissions import Permission, request_permissions
+    from android.storage import primary_external_storage_path
+
+
+from jnius import autoclass, cast
 from kivy.app import App
-from kivy.uix.widget import Widget
-from kivy.uix.button import Button
 from kivy.graphics import Color, Ellipse, Line
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.button import Button
+from kivy.uix.image import Image
+from kivy.uix.scatter import Scatter
+from kivy.uix.widget import Widget
 
 
-class MyPaintWidget(Widget):
-
-    def on_touch_down(self, touch):
-        color = (random(), 1, 1)
-        with self.canvas:
-            Color(*color, mode='hsv')
-            d = 30.
-            Ellipse(pos=(touch.x - d / 2, touch.y - d / 2), size=(d, d))
-            touch.ud['line'] = Line(points=(touch.x, touch.y))
-
-    def on_touch_move(self, touch):
-        touch.ud['line'].points += [touch.x, touch.y]
-
-
-class MyPaintApp(App):
+class PrintScreen(BoxLayout):
 
     def build(self):
-        parent = Widget()
-        self.painter = MyPaintWidget()
-        clearbtn = Button(text='Print')
-        clearbtn.bind(on_release=self.print_canvas)
-        parent.add_widget(self.painter)
-        parent.add_widget(clearbtn)
-        return parent
+        pass
 
-    def print_canvas(self, obj):
-        # PrintHelper = autoclass('androidx.print.PrintHelper')
-        # PrintHelper.printBitmap('jobname','./blank_9x9.png')
+    def print(self):
+        if platform == 'android':
+            # path = os.path.join(self.ids.fc.path, self.ids.fc.selection[0])
+
+            path = os.path.abspath(self.ids.im.source)
+            # path = self.copy_to_external_storage(path)
+            AndroidOSVERSION = autoclass('android.os.Build$VERSION')
+            # print(f"sharing file path: {path}\nAPI={AndroidOSVERSION.SDK_INT}")
+            # self.share_intent(path)
+            self.share_file(path)
+
+    def copy_to_external_storage(self,path):
+        if platform == 'android':
+            Environment = autoclass('android.os.Environment')
+            FileOutputStream = autoclass('java.io.FileOutputStream')
+            FileInputStream = autoclass('java.io.FileInputStream')
+
+            rootpath = Environment.getExternalStorageDirectory().getAbsolutePath()
+            File = autoclass('java.io.File')
+
+            dstFile = File(os.path.join(rootpath,os.path.basename(path)))
+            print(f"About to create new file {dstFile.toURI().toString()}")
+            srcFile = File(os.path.abspath(path))
+            if dstFile.exists():
+                return dstFile.toURI()
+            else:
+                dstFile.createNewFile()
+
+            print(f"File to new dst: {dstFile.toURI()}")
+
+            source = FileInputStream(srcFile)
+            destination = FileOutputStream(dstFile)
+
+            b = bytearray
+
+            print(f"Source available = {source.available()}")
+
+            while source.available() > 0:
+                b = source.read()
+                destination.write(b)
+
+            source.close()
+            destination.close()
+
+            return dstFile.toURI()
+
+    def share_file(self,path):
+        FileProvider = autoclass('android.support.v4.content.FileProvider')
+        Context = autoclass("android.content.Context")
+        # Environment = autoclass("android.os.Environment")
+        Intent = autoclass('android.content.Intent')
 
 
-        # Context is a normal java class in the Android API
-        Context = autoclass('android.content.Context')
+        # Uri = autoclass('android.net.Uri')
+        File = autoclass('java.io.File')
+        intent = Intent()
+        intent.setAction(Intent.ACTION_SEND)
+        intent.setType("image/*")
+        # uri = Uri.fromFile(File(path))
 
-        # PythonActivity is provided by the Kivy bootstrap app in python-for-android
-        PythonActivity = autoclass("org.kivy.android.PythonActivity")
+        share_file = File(path)
 
-        # The PythonActivity stores a reference to the currently running activity
-        # We need this to access the vibrator service
-        activity = PythonActivity.mActivity
+        print(f"share_file = {share_file.getAbsolutePath()}")
 
-        # This is almost identical to the java code for the vibrator
-        vibrator = activity.getSystemService(Context.VIBRATOR_SERVICE)
+        uri = FileProvider.getUriForFile(
+                Context.getApplicationContext(),
+                "com.chdirections.bvwsudoku.fileprovider",
+                share_file
+                )
+        print(f"Uri = {uri}")
 
-        vibrator.vibrate(500)  # The value is in milliseconds - this is 0.5s
+        parcelable = cast('android.os.Parcelable', uri)
+        intent.putExtra(Intent.EXTRA_STREAM, parcelable)
 
-    #     self.share('./blank_9x9.png')
+        PythonActivity = autoclass('org.kivy.android.PythonActivity')
+        currentActivity = cast('android.app.Activity', PythonActivity.mActivity)
+        self.context = cast('android.content.ContextWrapper', currentActivity.getApplicationContext())
 
-    # def share(self,path):
-    #     PythonActivity = autoclass('org.kivy.android.PythonActivity')
-    #     Intent = autoclass('android.content.Intent')
-    #     String = autoclass('java.lang.String')
-    #     Uri = autoclass('android.net.Uri')
-    #     File = autoclass('java.io.File')
-
-    #     shareIntent = Intent(Intent.ACTION_SEND)
-    #     shareIntent.setType('"image/*"')
-    #     imageFile = File(path)
-    #     # uri = Uri.FileProvide(imageFile)
-
-    #     # File imagePath = new File(Context.getFilesDir(), "images");
-    #     # File newFile = new File(imagePath, "default_image.jpg");
-    #     Uri uri = getUriForFile(getContext(), "com.mydomain.fileprovider", newFile)
+        if intent.resolveActivity(self.context.getPackageManager()) != None:
+            currentActivity.startActivity(intent)
 
 
-    #     parcelable = cast('android.os.Parcelable', uri)
-    #     shareIntent.putExtra(Intent.EXTRA_STREAM, parcelable)
 
-    #     currentActivity = cast('android.app.Activity', PythonActivity.mActivity)
-    #     currentActivity.startActivity(shareIntent)
+
+
+    def share_intent(self,path):
+        if platform == 'android':
+            Intent = autoclass('android.content.Intent')
+            Uri = autoclass('android.net.Uri')
+            File = autoclass('java.io.File')
+            intent = Intent()
+            intent.setAction(Intent.ACTION_VIEW)
+            intent.setType("image/*")
+            uri = Uri.fromFile(File(path))
+            parcelable = cast('android.os.Parcelable', uri)
+            intent.putExtra(Intent.EXTRA_STREAM, parcelable)
+
+            PythonActivity = autoclass('org.kivy.android.PythonActivity')
+            currentActivity = cast('android.app.Activity', PythonActivity.mActivity)
+            self.context = cast('android.content.ContextWrapper', currentActivity.getApplicationContext())
+
+            if intent.resolveActivity(self.context.getPackageManager()) != None:
+                currentActivity.startActivity(intent)
+
+class BVWSudoku(App):
+    def build(self):
+        if platform == 'android':
+            request_permissions([Permission.WRITE_EXTERNAL_STORAGE,
+                        Permission.READ_EXTERNAL_STORAGE])
+        return PrintScreen()
 
 if __name__ == '__main__':
-    MyPaintApp().run()
+    BVWSudoku().run()
 
-# Builds with the following:
-# p4a apk --private /mnt/c/Users/tcw25/Documents/GitHub/Sudoku/
-        # --package=com.chdirections
-        # --name "myapp"
-        # --version 0.1
-        # --bootstrap=sdl2
-        # --requirements=python3,kivy,pyjnius
-        # --arch=arm64-v8a
-        # --permission VIBRATE
