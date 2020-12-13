@@ -28,7 +28,7 @@ source.include_patterns = *.png,*.jpg
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 0.4
+version = 0.5
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
@@ -85,7 +85,7 @@ fullscreen = 0
 #android.presplash_color = #FFFFFF
 
 # (list) Permissions
-android.permissions = READ_EXTERNAL_STORAGE
+android.permissions = READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE
 
 # (int) Target Android API, should be as high as possible.
 android.api = 29
@@ -94,7 +94,7 @@ android.api = 29
 # android.minapi = 25
 
 # (int) Android SDK version to use
-android.sdk = 29
+#android.sdk = 29
 
 # (str) Android NDK version to use
 android.ndk = 19c
@@ -226,7 +226,7 @@ android.arch = arm64-v8a
 
 # (int) overrides automatic versionCode computation (used in build.gradle)
 # this is not the same as app version and should only be edited if you know what you're doing
-android.numeric_version = 8214
+android.numeric_version = 8215
 
 #
 # Python for android (p4a) specific

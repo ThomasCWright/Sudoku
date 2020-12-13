@@ -28,9 +28,9 @@ class PrintScreen(BoxLayout):
             # path = os.path.join(self.ids.fc.path, self.ids.fc.selection[0])
 
             path = os.path.abspath(self.ids.im.source)
-            path = self.copy_to_external_storage(path)
+            # path = self.copy_to_external_storage(path)
             AndroidOSVERSION = autoclass('android.os.Build$VERSION')
-            print(f"sharing file path: {path}\nAPI={AndroidOSVERSION.SDK_INT}")
+            # print(f"sharing file path: {path}\nAPI={AndroidOSVERSION.SDK_INT}")
             # self.share_intent(path)
             self.share_file(path)
 
@@ -44,6 +44,7 @@ class PrintScreen(BoxLayout):
             File = autoclass('java.io.File')
 
             dstFile = File(os.path.join(rootpath,os.path.basename(path)))
+            print(f"About to create new file {dstFile.toURI().toString()}")
             srcFile = File(os.path.abspath(path))
             if dstFile.exists():
                 return dstFile.toURI()
@@ -88,7 +89,7 @@ class PrintScreen(BoxLayout):
 
         uri = FileProvider.getUriForFile(
                 Context.getApplicationContext(),
-                "com.chdirections.BVWSudoku.fileprovider",
+                "com.chdirections.bvwsudoku.fileprovider",
                 share_file
                 )
         print(f"Uri = {uri}")
