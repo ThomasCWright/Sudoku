@@ -1,0 +1,10 @@
+Metadata-Version: 2.1
+Briefcase-Version: 0.3.3
+Name: bvwsudoku
+Formal-Name: BVW Sudoku
+App-ID: com.chdirections.bvwsudoku
+Version: 0.0.1
+Home-page: https://chdirections.com/bvwsudoku
+Author: TCW
+Author-email: tcw@chdirections.com
+Summary: Simple Sudoku App

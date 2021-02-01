@@ -1,0 +1,49 @@
+[tool.briefcase]
+project_name = "BVW Sudoku"
+bundle = "com.chdirections"
+version = "0.0.1"
+url = "https://chdirections.com/bvwsudoku"
+license = "MIT license"
+author = 'TCW'
+author_email = "tcw@chdirections.com"
+
+[tool.briefcase.app.bvwsudoku]
+formal_name = "BVW Sudoku"
+description = "Simple Sudoku App"
+icon = "src/bvwsudoku/resources/bvwsudoku"
+sources = ['src/bvwsudoku']
+requires = []
+
+
+[tool.briefcase.app.bvwsudoku.macOS]
+requires = [
+    'toga-cocoa>=0.3.0.dev20',
+]
+
+[tool.briefcase.app.bvwsudoku.linux]
+requires = [
+    'toga-gtk>=0.3.0.dev20',
+]
+system_requires = [
+    'libgirepository1.0-dev',
+    'libcairo2-dev',
+    'libpango1.0-dev',
+    'libwebkitgtk-3.0-0',
+    'gir1.2-webkit-3.0',
+]
+
+[tool.briefcase.app.bvwsudoku.windows]
+requires = [
+    'toga-winforms>=0.3.0.dev20',
+]
+
+# Mobile deployments
+[tool.briefcase.app.bvwsudoku.iOS]
+requires = [
+    'toga-iOS>=0.3.0.dev20',
+]
+
+[tool.briefcase.app.bvwsudoku.android]
+requires = [
+    'toga-android>=0.3.0.dev20',
+]

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="eb348aa1-7df0-4f8b-b124-49d6c6227210" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JupyterTrust" id="ef161548-df9a-42ee-8670-edcd3a919bc2" />
+  <component name="ProjectId" id="1k7HU3BilL3WBz2I48Kvze5IWOx" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/tests/features" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="eb348aa1-7df0-4f8b-b124-49d6c6227210" name="Default Changelist" comment="" />
+      <created>1605044723930</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1605044723930</updated>
+      <workItem from="1605044726022" duration="295000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="374" y="164" width="814" height="729" key="#Intentions" timestamp="1605045015067">
+      <screen x="0" y="0" width="1563" height="1012" />
+    </state>
+    <state x="374" y="164" width="814" height="729" key="#Intentions/0.0.1563.1012@0.0.1563.1012" timestamp="1605045015067" />
+    <state x="562" y="261" key="FileChooserDialogImpl" timestamp="1605044896474">
+      <screen x="0" y="0" width="1563" height="1012" />
+    </state>
+    <state x="562" y="261" key="FileChooserDialogImpl/0.0.1563.1012@0.0.1563.1012" timestamp="1605044896474" />
+    <state x="525" y="427" key="org.jetbrains.plugins.cucumber.inspections.ui.CreateStepDefinitionFileDialog" timestamp="1605044939159">
+      <screen x="0" y="0" width="1563" height="1012" />
+    </state>
+    <state x="525" y="427" key="org.jetbrains.plugins.cucumber.inspections.ui.CreateStepDefinitionFileDialog/0.0.1563.1012@0.0.1563.1012" timestamp="1605044939159" />
+  </component>
+</project>
